@@ -16,16 +16,20 @@ class Chat implements MessageComponentInterface
 
    public function onOpen(ConnectionInterface $conn)
    {
+      echo "<pre>";
+      var_dump($conn);
+      die;
       $this->clients->attach($conn);
    }
 
    public function onMessage(ConnectionInterface $from, $resultado = [])
    {
       $parametros = json_decode($resultado);
-
       foreach ($this->clients as $client) {
          $client->send(json_encode([
-            "to" => $parametros->from,
+            "user_id" => $parametros->from,
+            "employer_id" => $parametros->from,
+            "subject" => $parametros->subject,
             "message" => $parametros->message
          ]));
       }
